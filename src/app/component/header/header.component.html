@@ -2,7 +2,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
   <div class="d-flex align-items-center justify-content-between">
     <a (click)="home()" class="logo d-flex align-items-center">
-      <img src="../../../assets/home/hero-bg.jpg" alt="Scissors Logo" />
+      <img src="../../../assets/logo.png" alt="Scissors Logo" />
       <span class="d-none d-lg-block">Scissors</span>
     </a>
     <ng-content select=".toggle-sidebar-btn"></ng-content>
@@ -19,85 +19,41 @@
 
   <nav class="header-nav ms-auto" *ngIf="userData">
     <ul class="d-flex align-items-center">
-      <li class="nav-item dropdown" title="Notification">
-        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-          <i class="bi bi-bell"></i>
-          <span class="badge bg-primary badge-number">4</span> </a
-        ><!-- End Notification Icon -->
-
-        <ul
-          class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications"
-        >
-          <li class="dropdown-header">
-            You have 4 new notifications
-            <a href="#"
-              ><span class="badge rounded-pill bg-primary p-2 ms-2"
-                >View all</span
-              ></a
-            >
-          </li>
-          <li>
-            <hr class="dropdown-divider" />
-          </li>
-          <ng-container *ngFor="let item of [1, 2, 3]">
-            <li class="notification-item">
-              <i class="bi bi-exclamation-circle text-warning"></i>
-              <div>
-                <h4>Lorem Ipsum</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>30 min. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider" />
-            </li>
-          </ng-container>
-        </ul>
-        <!-- End Notification Dropdown Items -->
-      </li>
-      <!-- End Notification Nav -->
       <li class="nav-item dropdown" title="Messages">
         <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
           <i class="bi bi-chat-left-text"></i>
-          <span class="badge bg-success badge-number">3</span> </a
+          <span class="badge bg-success badge-number">1</span> </a
         ><!-- End Messages Icon -->
         <ul
           class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages"
         >
-          <li class="dropdown-header">
-            You have 3 new messages
+          <!-- <li class="dropdown-header">
+            You have a new message
             <a href="#"
-              ><span class="badge rounded-pill bg-primary p-2 ms-2"
-                >View all</span
-              ></a
-            >
+              >
+              <span class="badge rounded-pill bg-primary p-2 ms-2"
+                >View all</span>
+                </a>
+          </li> -->
+          <li>
+            <hr class="dropdown-divider" />
+          </li>
+          <li class="message-item">
+            <a href="#">
+              <img
+                src="../../../assets/logo.png"
+                alt=""
+                class="rounded-circle"
+              />
+              <div>
+                <h4>Welcome Message</h4>
+                <p>Thank you for signing up, enjoy the world...</p>
+              </div>
+            </a>
           </li>
           <li>
             <hr class="dropdown-divider" />
           </li>
-          <ng-container *ngFor="let item of [1, 2, 3]">
-            <li class="message-item">
-              <a href="#">
-                <img
-                  src="../../../assets/home/hero-bg.jpg"
-                  alt=""
-                  class="rounded-circle"
-                />
-                <div>
-                  <h4>Maria Hudson</h4>
-                  <p>
-                    Velit asperiores et ducimus soluta repudiandae labore
-                    officia est ut...
-                  </p>
-                  <p>4 hrs. ago</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider" />
-            </li>
-          </ng-container>
         </ul>
         <!-- End Messages Dropdown Items -->
       </li>
@@ -137,10 +93,7 @@
           </li>
 
           <li>
-            <a
-              class="dropdown-item d-flex align-items-center"
-              href="users-profile.html"
-            >
+            <a class="dropdown-item d-flex align-items-center">
               <i class="bi bi-person"></i>
               <span>My Profile</span>
             </a>
