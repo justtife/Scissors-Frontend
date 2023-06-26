@@ -8,10 +8,12 @@ import { UserService } from 'src/app/services/user-service.service';
 })
 export class HeaderComponent implements OnInit {
   userData: any;
+  loggedIn: boolean = false;
+
+  constructor(private route: Router, private http: UserService) {}
   ngOnInit() {
     this.getAUser();
   }
-  constructor(private route: Router, private http: UserService) {}
   signup() {
     this.route.navigate(['/signup']);
   }
@@ -25,6 +27,7 @@ export class HeaderComponent implements OnInit {
     let userID = localStorage.getItem('userID');
     this.http.getUser(userID as string).subscribe(
       (response: any) => {
+        this.loggedIn = true;
         this.userData = response.data;
       },
       (error) => {

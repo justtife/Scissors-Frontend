@@ -4,6 +4,12 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "paths": {
+      "util": ["node_modules/util/"],
+      "stream": ["node_modules/stream-browserify/"],
+      "crypto": ["node_modules/crypto-browserify/"],
+      "process": ["node_modules/process-browserify/"]
+    },
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,

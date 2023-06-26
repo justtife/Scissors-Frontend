@@ -7,7 +7,7 @@
         >
           <img
             *ngIf="userData?.profilePic; else elseBlock"
-            [src]="userData?.profilePic"
+            [src]="userData?.profilePic.split(' ')[1]"
             alt="Profile"
             class="rounded-circle"
           />
@@ -95,9 +95,9 @@
                 <div class="col-lg-3 col-md-4 label">User ID</div>
                 <div class="col-lg-9 col-md-8">{{ userData?.userID }}</div>
               </div>
-              <div class="row" *ngIf="userData?.gender">
+              <div class="row" *ngIf="userData?.sex">
                 <div class="col-lg-3 col-md-4 label">Gender</div>
-                <div class="col-lg-9 col-md-8">{{ userData?.gender }}</div>
+                <div class="col-lg-9 col-md-8">{{ userData?.sex }}</div>
               </div>
 
               <div class="row" *ngIf="userData?.nationality">
@@ -113,7 +113,11 @@
 
             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
               <!-- Profile Edit Form -->
-              <form>
+              <form
+                #updateForm="ngForm"
+                (ngSubmit)="onSubmit()"
+                id="updateForm"
+              >
                 <div class="row mb-3">
                   <label
                     for="profileImage"
@@ -122,16 +126,22 @@
                   >
                   <div class="col-md-8 col-lg-9">
                     <img
-                    *ngIf="userData?.profilePic; else elseBlock"
-                    [src]="userData?.profilePic"
-                    alt="Profile"
-                  />
-                  <ng-template #elseBlock>
-                    <img
-                      [src]="userData?.defaultPic"
+                      *ngIf="
+                        selectedImageSource || userData?.profilePic;
+                        else elseBlock
+                      "
+                      [src]="
+                        selectedImageSource
+                          ? selectedImageSource
+                          : userData?.profilePic.split(' ')[1]
+                      "
                       alt="Profile"
                     />
-                  </ng-template>                    <div class="pt-2">
+
+                    <ng-template #elseBlock>
+                      <img [src]="userData?.defaultPic" alt="Profile" />
+                    </ng-template>
+                    <div class="pt-2">
                       <a
                         (click)="openFilePicker()"
                         class="btn btn-primary btn-sm"
@@ -139,10 +149,10 @@
                         ><i class="bi bi-upload"></i
                       ></a>
                       <small class="mx-2"
-                        ><em>{{ selectedFile?.name }}</em></small
+                        ><em>{{ selectedImageFile?.name }}</em></small
                       >
                       <span
-                        *ngIf="selectedFile?.name"
+                        *ngIf="selectedImageFile?.name"
                         (click)="cancelSelection()"
                         style="cursor: pointer"
                         ><i class="bi bi-x"></i
@@ -152,16 +162,20 @@
                 </div>
 
                 <div class="row mb-3">
-                  <label for="fullName" class="col-md-4 col-lg-3 col-form-label"
+                  <label
+                    for="firstName"
+                    class="col-md-4 col-lg-3 col-form-label"
                     >First Name</label
                   >
                   <div class="col-md-8 col-lg-9">
                     <input
-                      name="fullName"
+                      name="firstname"
                       type="text"
                       class="form-control"
-                      id="fullName"
+                      id="firstname"
+                      required
                       [value]="userData?.name.first"
+                      [(ngModel)]="user.firstname || userData?.name.first"
                     />
                   </div>
                 </div>
@@ -171,11 +185,13 @@
                   >
                   <div class="col-md-8 col-lg-9">
                     <input
-                      name="fullName"
+                      name="lastame"
                       type="text"
                       class="form-control"
-                      id="fullName"
+                      id="lastname"
+                      required
                       [value]="userData?.name.last"
+                      [(ngModel)]="user.lastname || userData?.name.last"
                     />
                   </div>
                 </div>
@@ -185,11 +201,13 @@
                   >
                   <div class="col-md-8 col-lg-9">
                     <input
-                      name="fullName"
+                      name="userame"
                       type="text"
                       class="form-control"
                       id="username"
+                      required
                       [value]="userData?.name.user"
+                      [(ngModel)]="user.username || userData?.name.user"
                     />
                   </div>
                 </div>
@@ -201,21 +219,31 @@
                     >Nationality</label
                   >
                   <div class="col-md-8 col-lg-9">
-                    <input
-                      name="country"
-                      type="text"
+                    <select
                       class="form-control"
                       id="nationality"
-                      [value]="userData?.nationality || null"
-                    />
+                      name="nationality"
+                      [(ngModel)]="user.nationality"
+                    >
+                      <option
+                        *ngFor="let country of countries"
+                      >
+                        {{ country.name.common }}
+                      </option>
+                    </select>
                   </div>
                 </div>
                 <div class="row mb-3">
-                  <label for="gender" class="col-md-4 col-lg-3 col-form-label"
+                  <label for="sex" class="col-md-4 col-lg-3 col-form-label"
                     >Gender</label
                   >
                   <div class="col-md-8 col-lg-9">
-                    <select name="gender" id="gender" class="form-control" [ngModel]="userData?.gender">
+                    <select
+                      name="sex"
+                      id="sex"
+                      class="form-control"
+                      [(ngModel)]="user.sex"
+                    >
                       <option value="male">Male</option>
                       <option value="female">Female</option>
                       <option value="others">Rather Not say</option>
@@ -223,8 +251,19 @@
                   </div>
                 </div>
                 <div class="text-center">
-                  <button type="submit" class="btn btn-outline-primary">
-                    Save Changes
+                  <button
+                    type="submit"
+                    class="btn btn-block btn-outline-primary py-1 w-100"
+                    [disabled]=" isSubmitting"
+                  >
+                    <span *ngIf="!isSubmitting">Save Changes</span>
+                    <span *ngIf="isSubmitting">
+                      <span
+                        class="spinner-border spinner-border-sm me-2"
+                        role="status"
+                      ></span>
+                      Processing...
+                    </span>
                   </button>
                 </div>
               </form>

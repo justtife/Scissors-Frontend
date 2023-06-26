@@ -55,7 +55,9 @@
               data-aos-delay="200"
               data-aos-offset="-500"
             >
-              <a href="#" class="btn btn-outline-primary">Get started</a>
+              <a routerLink="/signup" class="btn btn-outline-primary"
+                >Get started</a
+              >
             </p>
           </div>
           <div class="col-lg-4 iphone-wrap">
@@ -238,16 +240,17 @@
               </div>
             </div>
 
-            <div class="form-check">
+            <div class="form-check my-2">
               <input
                 class="form-check-input"
                 type="checkbox"
                 [(ngModel)]="showCustomUrl"
                 id="toggleCustomUrl"
+                (change)="toggleCustomUrl()"
               />
-              <label class="form-check-label" for="toggleCustomUrl">
-                Toggle Custom URL
-              </label>
+              <label class="form-check-label" for="toggleCustomUrl"
+                >Add Custom URL</label
+              >
             </div>
 
             <button class="w-100 btn btn-lg btn-outline-info" type="submit">
@@ -255,8 +258,7 @@
             </button>
             <hr class="my-4" />
             <small class="text-muted"
-              >By clicking <router-outlet>Sign in</router-outlet>, you can
-              create qrcode conveniently</small
+              >By clicking Sign in, you can create qrcode conveniently</small
             >
           </form>
         </div>
@@ -277,7 +279,9 @@
             making it easier and more convenient for users to scan and navigate
             to the desired information or websites.
           </p>
-          <p><a href="#" class="btn btn-primary">Create Qr Code</a></p>
+          <p>
+            <a routerLink="/qrcode" class="btn btn-primary">Create Qr Code</a>
+          </p>
         </div>
         <div class="col-md-6" data-aos="fade-left" data-aos-delay="500">
           <img
@@ -302,7 +306,7 @@
             optimization. Additionally, you can track and analyze your links
             just at your confort
           </p>
-          <p><a routerLink="/signup" class="btn btn-primary">Start Now</a></p>
+          <p><a routerLink="/login" class="btn btn-primary">Start Now</a></p>
         </div>
         <div class="col-md-6" data-aos="fade-right" data-aos-delay="500">
           <img
@@ -334,17 +338,17 @@
           <div class="col-md-6 mb-6 mb-md-0">
             <h5 class="mb-6">Navigation</h5>
             <ul class="list-unstyled">
-              <li><a (click)="signup()">Signup</a></li>
-              <li><a (click)="login()">Login</a></li>
-              <li><a (click)="dashboard()">Dashboard</a></li>
+              <li><a routerLink="/signup">Signup</a></li>
+              <li><a routerLink="/login">Login</a></li>
+              <li><a routerLink="/dashboard">Dashboard</a></li>
             </ul>
           </div>
           <div class="col-md-6 mb-6 mb-md-0">
             <h5 class="mb-6">Services</h5>
             <ul class="list-unstyled">
-              <li><a (click)="dashboard()">URL Shortner</a></li>
-              <li><a (click)="qrcode()">Qr Code</a></li>
-              <li><a (clcik)="analytics()">Analytics</a></li>
+              <li><a routerLink="/dashboard">URL Shortner</a></li>
+              <li><a routerLink="/qrcode">Qr Code</a></li>
+              <li><a routerLink="/analytics">Analytics</a></li>
             </ul>
           </div>
         </div>

@@ -8,7 +8,7 @@
     <ng-content select=".toggle-sidebar-btn"></ng-content>
   </div>
   <!-- End Logo -->
-  <div class="ms-auto mx-3" *ngIf="!userData">
+  <div class="ms-auto mx-3" *ngIf="!loggedIn || !userData">
     <a class="btn btn-primary rounded-pill px-3 mx-2" (click)="signup()"
       >Signup</a
     >
@@ -17,7 +17,7 @@
     >
   </div>
 
-  <nav class="header-nav ms-auto" *ngIf="userData">
+  <nav class="header-nav ms-auto" *ngIf="loggedIn || userData">
     <ul class="d-flex align-items-center">
       <li class="nav-item dropdown" title="Messages">
         <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
@@ -67,7 +67,7 @@
         >
           <img
             *ngIf="userData?.profilePic; else elseBlock"
-            [src]="userData?.profilePic"
+            [src]="userData?.profilePic.split(' ')[1]"
             alt="Profile"
             class="rounded-circle"
           />

@@ -75,7 +75,7 @@
               type="file"
               name="profilePic"
               accept="image/png,image/jpeg"
-              [(ngModel)]="user.profilePic"
+              (change)="imageUpload($event)"
               class="form-control bg-white border-left-0 border-md"
             />
           </div>

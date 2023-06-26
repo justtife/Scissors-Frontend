@@ -4,9 +4,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { LoginComponent } from './pages/login/login.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { SubDashComponent } from './pages/sub-dash/sub-dash.component';
-import { UserComponent } from './pages/user/user.component';
-
+import { AuthGuard } from './services/auth-guard.service';
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
@@ -15,7 +13,7 @@ const routes: Routes = [
 
   {
     path: '',
-    component: DashboardComponent,
+    component: DashboardComponent,canActivate:[AuthGuard],
     loadChildren: () =>
       import('./pages/dashboard/dashboard.module').then(
         (m) => m.DashboardModule

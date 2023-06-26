@@ -2,6 +2,7 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user-service.service';
 import { AlertComponent } from 'src/app/component/alert/alert.component';
+import { switchMap } from 'rxjs';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -9,7 +10,9 @@ import { AlertComponent } from 'src/app/component/alert/alert.component';
 })
 export class SignupComponent implements OnInit {
   isSubmitting: boolean = false;
-  user: any = {};
+  user: any = {
+    profilePic: '',
+  };
   response: object | any = {
     message: '',
     icon: '',
@@ -17,6 +20,7 @@ export class SignupComponent implements OnInit {
   };
   selectedFile: any;
   countries: any;
+  formData: FormData = new FormData();
   @ViewChild(AlertComponent) alertComponent!: AlertComponent;
   constructor(private http: UserService, private route: Router) {}
   ngOnInit() {
@@ -43,42 +47,46 @@ export class SignupComponent implements OnInit {
       this.alertComponent.resetAlert();
     }
   }
-  onFileSelected(event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    if (!inputElement.files || inputElement.files.length === 0) {
-      return;
-    }
-    const file = inputElement.files;
-    this.selectedFile = file;
-    this.user.profilePic = file;
-    console.log(inputElement.files);
+
+  imageUpload(e: any) {
+    let file = e.target.files[0];
+    console.log(file);
+    this.formData.append('profilePic', file, file.name);
   }
   async onSubmit() {
     this.isSubmitting = true;
-    try {
-      this.http.signUser(this.user).subscribe(
+    this.http
+      .imageUpload(this.formData)
+      .pipe(
+        switchMap((response) => {
+          this.user.profilePic = response.data;
+          return this.http.signUser(this.user);
+        })
+      )
+      .subscribe(
         (response: any) => {
           this.response.message = response.message;
           this.response.type = 'alert-success';
           this.response.icon = 'bi-hand-thumbs-up';
-          localStorage.setItem('token', response.token);
+          localStorage.setItem('srstoken', response.token);
           localStorage.setItem('userID', response.data.userID);
+          const currentDate = new Date();
+          const sixHoursFromNow = new Date(
+            currentDate.getTime() + 6 * 60 * 60 * 1000
+          );
+          const dateString = sixHoursFromNow.toISOString();
+          localStorage.setItem('tokenExp', dateString);
+          // Navigate and reset isSubmitting after 3 seconds
           setTimeout(() => {
             this.route.navigate(['/dashboard']);
             this.isSubmitting = false;
           }, 3000);
         },
         (error: any) => {
+          // Handle signUser error
           console.log(error.error.message);
-          this.response.message = error.error.message;
-          this.response.type = 'alert-warning';
-          this.response.icon = 'bi-exclamation-triangle';
-          this.isSubmitting = false;
-          this.resetAlert();
+          // Rest of the code...
         }
       );
-    } catch (err) {
-      console.log(err);
-    }
   }
 }
