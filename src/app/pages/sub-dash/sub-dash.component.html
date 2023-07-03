@@ -1,3 +1,5 @@
+<app-alert *ngIf="error.message" [response]="error"></app-alert>
+
 <section class="section dashboard">
   <div class="row">
     <!-- Left side columns -->
@@ -16,7 +18,7 @@
                   <i class="bi bi-graph-up"></i>
                 </div>
                 <div class="ps-3">
-                  <h6>145</h6>
+                  <h4>{{ urls?.length || 0 }}</h4>
                   <span class="text-success small pt-1 fw-bold">Total</span>
                   <span class="text-muted small pt-2 ps-1">Links</span>
                 </div>
@@ -36,7 +38,7 @@
                   <i class="bi bi-qr-code"></i>
                 </div>
                 <div class="ps-3">
-                  <h6>3,264</h6>
+                  <h4>{{ qrCodeDetails?.length || 0 }}</h4>
                   <span class="text-success small pt-1 fw-bold">Total</span>
                   <span class="text-muted small pt-2 ps-1">QrCodes</span>
                 </div>
@@ -53,20 +55,22 @@
               <form
                 action="#"
                 class="form-group pt-4"
-                #loginForm="ngForm"
-                id="loginForm"
+                #createURL="ngForm"
+                id="createURL"
+                (ngSubmit)="shortenUrl()"
               >
                 <div class="row">
                   <div class="form-floating col-md-12 mb-4">
                     <input
                       type="text"
                       class="form-control"
-                      id="user"
-                      name="user"
+                      id="original_url"
+                      name="original_url"
                       placeholder=" "
                       required
+                      [(ngModel)]="urlData.original_url"
                     />
-                    <label for="user"
+                    <label for="original_url"
                       ><i class="bi bi-link-45deg"></i> Enter Long URL</label
                     >
                   </div>
@@ -74,12 +78,13 @@
                     <input
                       type="text"
                       class="form-control"
-                      id="user"
-                      name="user"
+                      id="name"
                       placeholder=" "
+                      name="name"
                       required
+                      [(ngModel)]="urlData.name"
                     />
-                    <label for="user"
+                    <label for="name"
                       ><i class="bi bi-pencil"></i> Url Title</label
                     >
                   </div>
@@ -88,18 +93,18 @@
                     <input
                       type="text"
                       class="form-control"
-                      id="password"
-                      name="password"
+                      id="short_url"
                       placeholder=" "
-                      [(ngModel)]="inputText"
+                      name="short_url"
+                      [(ngModel)]="urlData.short_url"
                       (ngModelChange)="convertToLower($event)"
-                      required
                     />
-                    <label for="fieldName"
+                    <label for="short_url"
                       ><i class="bi bi-pen"></i> Custom Link</label
                     >
                     <small class="font-italic"
-                      ><em>srs.com/</em><strong>{{ inputText }}</strong></small
+                      ><em>{{ currentUrl }}/</em
+                      ><strong>{{ inputText }}</strong></small
                     >
                   </div>
                   <div class="form-floating col-md-12 mb-4">
@@ -107,10 +112,13 @@
                       class="form-check-input mx-2"
                       type="checkbox"
                       id="gridCheck1"
+                      name="makeQR"
+                      [(ngModel)]="urlData.makeQR"
+                      (click)="onGenerateQRCodeChange()"
                     />
                     <span><i class="bi bi-qr-code"></i> Generate QRCode</span>
                   </div>
-                  <div class="form-floating col-md-12 mb-4">
+                  <div class="form-floating col-md-12 mb-2">
                     <input
                       type="text"
                       class="form-control"
@@ -141,6 +149,7 @@
                       name="description"
                       id=""
                       class="form-control"
+                      [(ngModel)]="urlData.description"
                     ></textarea>
                     <label for="descritioon"
                       ><i class="bi bi-pen-fill"></i> Description</label
@@ -150,13 +159,90 @@
                   <div class="col-lg-12 mb-3">
                     <button
                       type="submit"
-                      class="btn btn-block btn-outline-primary py-2 w-100"
+                      class="w-100 btn btn-lg btn-outline-info"
+                      [disabled]="createURL.invalid || isSubmitting"
                     >
-                      Shorten
+                      <span *ngIf="!isSubmitting">Shorten</span>
+                      <span *ngIf="isSubmitting">
+                        <span
+                          class="spinner-border spinner-border-sm me-2"
+                          role="status"
+                        ></span>
+                        Processing...
+                      </span>
                     </button>
                   </div>
                 </div>
               </form>
+              <div
+                *ngIf="showResponse && response"
+                class="modal fade show"
+                id="basicModal"
+                tabindex="-1"
+                [style.display]="showModal ? 'block' : 'none'"
+              >
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Details</h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        (click)="cancelModal()"
+                      ></button>
+                    </div>
+                    <div class="modal-body mx-3">
+                      <div *ngIf="response.qrcode" class="card d-block mx-auto">
+                        <div
+                          class="card-body d-flex flex-column align-items-center"
+                        >
+                          <img [src]="response.qrcode" alt="Profile" />
+                          <h6>Qr Code</h6>
+                        </div>
+                      </div>
+                      <div class="row align-items-center my-2">
+                        <div class="col-lg-3 col-md-3 label">Short URL:</div>
+                        <div
+                          class="col-lg-9 col-md-9 border rounded d-flex align-items-center justify-content-between p-2"
+                        >
+                          <span>{{ currentUrl }}/{{ response.short_url }}</span>
+                          <div>
+                            <span
+                              class="input-group-text"
+                              (click)="copyLink()"
+                              style="cursor: pointer"
+                              [ngClass]="{
+                                ticked: clipboardIcon === 'bi-clipboard2-check'
+                              }"
+                            >
+                              <i class="bi" [ngClass]="clipboardIcon"></i>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row align-items-center my-2">
+                        <div class="col-lg-3 col-md-3 label">Title:</div>
+                        <div
+                          class="col-lg-9 col-md-9 border rounded d-flex align-items-center p-2"
+                        >
+                          <span>{{ response.name }}</span>
+                        </div>
+                      </div>
+                      <div
+                        *ngIf="response.description"
+                        class="row align-items-center my-2"
+                      >
+                        <div class="col-lg-3 col-md-3 label">Description:</div>
+                        <div
+                          class="col-lg-9 col-md-9 border rounded d-flex align-items-center p-2"
+                        >
+                          <span>{{ response.description }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -171,33 +257,43 @@
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Latest QrCode</h5>
-
-          <div class="card bg-transparent">
-            <img
-              src="../../../assets/qr-code.png"
-              class="card-img-top"
-              alt="..."
-            />
-            <div class="card-body bg-transparent">
-              <h5 class="card-title">Details</h5>
-              <p class="card-text">
-                <strong>Short URL:</strong>
-              </p>
-              <p class="card-text"><a href="#">srs.com/hdt4gdc</a></p>
-              <p class="card-text">
-                <strong>Title:</strong>
-              </p>
-              <p class="card-text">Testing the Shortner</p>
-              <p class="card-text">
-                <strong>Description:</strong>
-              </p>
-              <p class="card-text">Lorem ipsum dolor sit amet.</p>
-              <p class="card-text">
-                <strong>Tags:</strong>
-              </p>
-              <p class="card-text">URL,Shortner,Scissors</p>
+          <h2 class="text-center" *ngIf="!qrCode; else NoQrCode">
+            No Qr Code has been generated yet
+          </h2>
+          <ng-template #NoQrCode>
+            <div class="card bg-transparent">
+              <img
+                [src]="qrCode?.qrcode"
+                class="card-img-top"
+                alt="Qr code of short link"
+              />
+              <div class="card-body bg-transparent">
+                <h5 class="card-title">Details</h5>
+                <p class="card-text">
+                  <strong>Short URL:</strong>
+                </p>
+                <p class="card-text">
+                  <a [routerLink]="'/' + qrCode?.short_url"
+                    >{{ currentUrl }}/{{ qrCode?.short_url }}</a
+                  >
+                </p>
+                <p class="card-text">
+                  <strong>Title:</strong>
+                </p>
+                <p class="card-text">{{ qrCode?.name }}</p>
+                <p *ngIf="qrCode?.description" class="card-text">
+                  <strong>Description:</strong>
+                </p>
+                <p class="card-text" *ngIf="qrCode?.description">
+                  {{ qrCode?.description }}
+                </p>
+                <p class="card-text" *ngIf="qrCode?.tag">
+                  <strong>Tags:</strong>
+                </p>
+                <p class="card-text" *ngIf="qrCode?.tag">{{ qrCode?.tag }}</p>
+              </div>
             </div>
-          </div>
+          </ng-template>
         </div>
       </div>
       <!-- End Recent Activity -->
@@ -207,47 +303,39 @@
     <!-- Recent Sales -->
     <div class="col-lg-12">
       <div class="card recent-sales overflow-auto">
-        <div class="filter">
-          <a class="icon" href="#" data-bs-toggle="dropdown"
-            ><i class="bi bi-three-dots"></i
-          ></a>
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-            <li class="dropdown-header text-start">
-              <h6>Filter</h6>
-            </li>
-
-            <li><a class="dropdown-item" href="#">Tags</a></li>
-            <li><a class="dropdown-item" href="#">Title</a></li>
-          </ul>
-        </div>
-
         <div class="card-body">
           <h5 class="card-title">Short Links</h5>
-
-          <table class="table table-borderless datatable">
-            <thead>
-              <tr>
-                <th scope="col">S/N</th>
-                <th scope="col">Title</th>
-                <th scope="col">Short URL</th>
-                <th scope="col">Tags</th>
-              </tr>
-            </thead>
-            <tbody *ngFor="let i of numbers">
-              <tr>
-                <th scope="row">
-                  {{ i }}
-                </th>
-                <td>John Doe</td>
-                <td>
-                  <a [routerLink]="i.toString()" class="text-primary"
-                    >scs.com/{{ i }}</a
-                  >
-                </td>
-                <td><span>Approved</span></td>
-              </tr>
-            </tbody>
-          </table>
+          <h2 class="text-center" *ngIf="!urls; else urlTable">
+            No Url created yet
+          </h2>
+          <ng-template #urlTable
+            ><table class="table table-borderless datatable">
+              <thead>
+                <tr>
+                  <th scope="col">S/N</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Short URL</th>
+                  <th scope="col">Clicks</th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let url of urls; let i = index">
+                <tr>
+                  <th scope="row">
+                    {{ i + 1 }}
+                  </th>
+                  <td>{{ url.name }}</td>
+                  <td>
+                    <a [routerLink]="'/' + url.short_url" class="text-primary"
+                      >{{ currentUrl }}/{{ url.short_url }}</a
+                    >
+                  </td>
+                  <td>
+                    <span>{{ url.clicks }}</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table></ng-template
+          >
         </div>
       </div>
     </div>

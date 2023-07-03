@@ -6,12 +6,7 @@ const httpOptions = {
     Accept: 'application/json',
   }),
 };
-const httpOptions2 = {
-  headers: new HttpHeaders({
-    Accept: 'application/json',
-    Authorization: 'Bearer ' + localStorage.getItem('srstoken'),
-  }),
-};
+
 @Injectable({
   providedIn: 'root',
 })
@@ -19,6 +14,16 @@ export class UserService {
   private apiUrl = 'http://localhost:7789/api/v1/user/'; // Replace with your API endpoint URL
   private countryURL = 'https://restcountries.com/v3.1/all';
   constructor(private http: HttpClient) {}
+  private getHttpOptions(): any {
+    const token = localStorage.getItem('srstoken');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Accept: 'application/json',
+        Authorization: 'Bearer ' + token,
+      }),
+    };
+    return httpOptions;
+  }
   signUser(userData: any): Observable<any> {
     return this.http.post(this.apiUrl + 'signup', userData, httpOptions);
   }
@@ -26,7 +31,7 @@ export class UserService {
     return this.http.post(this.apiUrl + 'login', userData, httpOptions);
   }
   getUser(userID: string): Observable<any> {
-    return this.http.get(this.apiUrl + userID, httpOptions2);
+    return this.http.get(this.apiUrl + userID, this.getHttpOptions());
   }
   getAllCountries(): Observable<any> {
     return this.http.get(this.countryURL);
@@ -34,7 +39,21 @@ export class UserService {
   imageUpload(data: any) {
     return this.http.post<any>(this.apiUrl + 'upload', data);
   }
-  updateUser(userID: string,userData:any): Observable<any> {
-    return this.http.patch(this.apiUrl + userID, userData, httpOptions2);
+  updateUser(userID: string, userData: any): Observable<any> {
+    return this.http.patch(
+      this.apiUrl + userID,
+      userData,
+      this.getHttpOptions()
+    );
+  }
+  changeEmail(userData: any): Observable<any> {
+    return this.http.patch(
+      this.apiUrl + 'change-email',
+      userData,
+      this.getHttpOptions()
+    );
+  }
+  logout(): Observable<any> {
+    return this.http.post<any>(this.apiUrl + 'logout', 'logout');
   }
 }

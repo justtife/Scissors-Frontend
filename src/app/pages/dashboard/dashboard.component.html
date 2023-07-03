@@ -2,6 +2,7 @@
   <i class="bi bi-list toggle-sidebar-btn" *ngIf="true" (click)="toggleWidth()"></i>
 </app-header>
 <!-- ======= Sidebar ======= -->
+
 <aside
   id="sidebar"
   class="sidebar"
@@ -47,8 +48,8 @@
     </li>
     <!--Customer Support Page -->
 
-    <li class="nav-item">
-      <a class="nav-link collapsed" routerLink="logout">
+    <li class="nav-item" (click)="logout()">
+      <a class="nav-link collapsed">
         <i class="bi bi-box-arrow-in-left"></i>
         <span>Logout</span>
       </a>

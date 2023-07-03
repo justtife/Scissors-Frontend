@@ -1,4 +1,6 @@
 <app-header></app-header>
+<app-alert *ngIf="response.message" [response]="response"></app-alert>
+
 <div class="container" style="position: relative; margin-top: 4rem">
   <div class="row py-2 align-items-center">
     <div class="col-md-7 pr-lg-7 mb-7 mb-md-0">
@@ -33,7 +35,7 @@
               name="user"
               placeholder=" "
               required
-              [(ngModel)]="user['user']"
+              [(ngModel)]="user.user"
             />
             <label for="user">Username or Email</label>
           </div>
@@ -46,7 +48,7 @@
               name="password"
               placeholder=" "
               required
-              [(ngModel)]="user['password']"
+              [(ngModel)]="user.password"
             />
             <label for="fieldName">Password</label>
           </div>
@@ -57,7 +59,7 @@
               class="btn btn-block btn-outline-primary py-2 w-100"
               [disabled]="loginForm.invalid || isSubmitting"
             >
-              <span *ngIf="!isSubmitting">Create Account</span>
+              <span *ngIf="!isSubmitting">Login</span>
               <span *ngIf="isSubmitting">
                 <span
                   class="spinner-border spinner-border-sm me-2"
@@ -67,16 +69,7 @@
               </span>
             </button>
           </div>
-          <div class="other d-flex justify-content-between">
-            <div>
-              <input
-                class=""
-                id="remember"
-                type="checkbox"
-                name="remember-me"
-              />
-              <label class="px-2" for="ckb1"> Remember me </label>
-            </div>
+          <div class="other d-flex justify-content-center">
             <div>
               <a routerLink="#" class="txt1"> Forgot Password? </a>
             </div>

@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class SessionService {
   private lastActiveTime: number = Date.now();
-  private timeDuration: number =   10 * 1000;
+  private timeDuration: number =   6 * 1000;
   constructor() {}
   public resetTimer(): void {
     this.lastActiveTime = Date.now();
