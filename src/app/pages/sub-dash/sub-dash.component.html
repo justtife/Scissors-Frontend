@@ -1,4 +1,5 @@
 <app-alert *ngIf="error.message" [response]="error"></app-alert>
+
 <section class="section dashboard">
   <div class="row">
     <!-- Left side columns -->
@@ -286,12 +287,10 @@
                 <p class="card-text" *ngIf="qrCode?.description">
                   {{ qrCode?.description }}
                 </p>
-                <p class="card-text" *ngIf="qrCode?.tag != 0">
+                <p class="card-text" *ngIf="qrCode?.tag">
                   <strong>Tags:</strong>
                 </p>
-                <p class="card-text" *ngIf="qrCode?.tag != 0">
-                  {{ qrCode?.tag }}
-                </p>
+                <p class="card-text" *ngIf="qrCode?.tag">{{ qrCode?.tag }}</p>
               </div>
             </div>
           </ng-template>

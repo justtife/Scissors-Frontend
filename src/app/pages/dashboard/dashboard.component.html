@@ -1,12 +1,6 @@
-<app-loading *ngIf="loading"></app-loading>
 <app-header>
-  <i
-    class="bi bi-list toggle-sidebar-btn"
-    *ngIf="true"
-    (click)="toggleWidth()"
-  ></i>
+  <i class="bi bi-list toggle-sidebar-btn" *ngIf="true" (click)="toggleWidth()"></i>
 </app-header>
-
 <!-- ======= Sidebar ======= -->
 
 <aside
@@ -65,7 +59,7 @@
 </aside>
 <!-- End Sidebar-->
 <main id="main" class="main">
-  <!-- <div class="pagetitle">
+  <div class="pagetitle">
     <h1>{{ pageTitle }}</h1>
     <nav>
       <ol class="breadcrumb">
@@ -75,7 +69,7 @@
         <li class="breadcrumb-item active">{{ pageSubTitle }}</li>
       </ol>
     </nav>
-  </div> -->
+  </div>
   <!-- End Page Title -->
 
   <router-outlet></router-outlet>
