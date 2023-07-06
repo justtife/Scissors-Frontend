@@ -1,20 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-alert',
   templateUrl: './alert.component.html',
   styleUrls: ['./alert.component.scss'],
 })
-export class AlertComponent implements OnInit {
+export class AlertComponent {
   @Input() response: any;
   showAlert: boolean = true;
-  ngOnInit(): void {
-    this.clearAlert();
-  }
   onCancelClick(): void {
     this.showAlert = false;
   }
-  clearAlert() {
+  resetAlert(): void {
+    this.showAlert = true;
     setTimeout(() => {
       this.showAlert = false;
     }, 5000);
