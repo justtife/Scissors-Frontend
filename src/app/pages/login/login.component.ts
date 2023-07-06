@@ -13,6 +13,7 @@ export class LoginComponent {
     password: '',
   };
 <<<<<<< HEAD
+<<<<<<< HEAD
   apiResponse: any;
 =======
   response: object | any = {
@@ -21,15 +22,20 @@ export class LoginComponent {
     type: '',
   };
 >>>>>>> parent of 4895142 (Updated the frontend)
+=======
+  response: object | any = {};
+>>>>>>> parent of 25d56b6 (Updates)
   constructor(private http: UserService, private route: Router) {}
   async onSubmit() {
     this.isSubmitting = true;
+    this.response = {};
     try {
       this.http.loginUser(this.user).subscribe(
         (response) => {
           this.apiResponse = response;
           localStorage.setItem('token', response.token);
           localStorage.setItem('userID', response.data.userID);
+<<<<<<< HEAD
 <<<<<<< HEAD
           setTimeout(() => {
             this.route.navigate(['/dashboard']); // Replace '/dashboard' with your desired route
@@ -45,6 +51,8 @@ export class LoginComponent {
             'tokenExp',
             dateString + ' ' + response.data.userID
           );
+=======
+>>>>>>> parent of 25d56b6 (Updates)
           this.route.navigate(['/dashboard']);
           this.isSubmitting = false;
 >>>>>>> parent of 4895142 (Updated the frontend)

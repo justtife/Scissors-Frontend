@@ -16,7 +16,13 @@ import { HttpClientModule } from '@angular/common/http';
 =======
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { RedirectComponent } from './component/redirect/redirect.component';
+<<<<<<< HEAD
 >>>>>>> parent of 4895142 (Updated the frontend)
+=======
+import { QrcodeComponent } from './pages/qrcode/qrcode.component';
+import { AnalyticsComponent } from './pages/analytics/analytics.component';
+import { SupportComponent } from './pages/support/support.component';
+>>>>>>> parent of 25d56b6 (Updates)
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +36,13 @@ import { RedirectComponent } from './component/redirect/redirect.component';
 =======
     NotFoundComponent,
     RedirectComponent,
+<<<<<<< HEAD
 >>>>>>> parent of 4895142 (Updated the frontend)
+=======
+    QrcodeComponent,
+    AnalyticsComponent,
+    SupportComponent,
+>>>>>>> parent of 25d56b6 (Updates)
   ],
   imports: [
     BrowserModule,

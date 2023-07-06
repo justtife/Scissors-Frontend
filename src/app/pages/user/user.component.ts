@@ -8,11 +8,24 @@ import { switchMap } from 'rxjs';
 })
 export class UserComponent implements OnInit {
   // @ViewChild('fileInput') fileInput!: ElementRef;
+<<<<<<< HEAD
   userData: any;
 <<<<<<< HEAD
   user: any = {
   };
 =======
+=======
+  userData: any = {
+    name: '',
+    sex: '',
+    nationality: '',
+  };
+  response: any = {
+    message: '',
+    icon: '',
+    type: '',
+  };
+>>>>>>> parent of 25d56b6 (Updates)
   user: any = {};
 >>>>>>> parent of 4895142 (Updated the frontend)
   countries: any;
@@ -21,6 +34,7 @@ export class UserComponent implements OnInit {
   isSubmitting: boolean = false;
   userID: string | null = localStorage.getItem('userID');
   formData: FormData = new FormData();
+  selectedFile: any;
   ngOnInit() {
     this.getAUser();
     this.getCountries();
@@ -59,15 +73,15 @@ export class UserComponent implements OnInit {
 
     // Add an event listener to handle the file selection
     input.addEventListener('change', (event) => {
-      const selectedFile = (event.target as HTMLInputElement)?.files?.[0];
-      if (selectedFile) {
-        this.selectedImageFile = selectedFile;
+      this.selectedFile = (event.target as HTMLInputElement)?.files?.[0];
+      if (this.selectedFile) {
+        this.selectedImageFile = this.selectedFile;
         this.formData.append(
           'profilePic',
-          selectedFile,
+          this.selectedFile,
           this.selectedImageFile.name
         );
-        this.getImageSource(selectedFile);
+        this.getImageSource(this.selectedFile);
         // Do something with the selected file
       }
     });
@@ -86,15 +100,23 @@ export class UserComponent implements OnInit {
     this.selectedImageFile = null;
     this.selectedImageSource = '';
   }
-  onSubmit() {
+  onUpdate() {
+    let updateUser;
+    this.isSubmitting = false;
+    this.user.firstname = this.userData.name.first;
+    this.user.lastname = this.userData.name.last;
+    this.user.username = this.userData.name.user;
+    this.user.nationality = this.userData.nationality;
+    this.user.sex = this.userData.sex;
     this.isSubmitting = true;
-    this.http
-      .imageUpload(this.formData)
-      .pipe(
+    if (this.selectedFile) {
+      updateUser = this.http.imageUpload(this.formData).pipe(
         switchMap((response) => {
           this.user.profilePic = response.data;
+          console.log(this.user);
           return this.http.updateUser(this.userID as string, this.user);
         })
+<<<<<<< HEAD
       )
       .subscribe((response: any) => {
         console.log(response);
@@ -107,5 +129,29 @@ export class UserComponent implements OnInit {
   onChangeEmail() {
     
 >>>>>>> parent of 4895142 (Updated the frontend)
+=======
+      );
+    } else {
+      console.log(this.user);
+      updateUser = this.http.updateUser(this.userID as string, this.user);
+    }
+    updateUser.subscribe(
+      (response: any) => {
+        this.response.message = response.message;
+        this.response.type = 'alert-success';
+        this.response.icon = 'bi-hand-thumbs-up';
+        this.ngOnInit();
+        this.isSubmitting = false;
+        this.user = {};
+      },
+      (error) => {
+        this.response.message = error.error.message;
+        this.response.icon = 'bi-exclamation-circle';
+        this.response.type = 'alert-warning';
+      }
+    );
+    this.isSubmitting = false;
+>>>>>>> parent of 25d56b6 (Updates)
   }
+  onChangeEmail() {}
 }

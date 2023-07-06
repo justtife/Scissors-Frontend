@@ -9,7 +9,11 @@ import { AuthGuard } from './services/auth-guard.service';
 =======
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { RedirectComponent } from './component/redirect/redirect.component';
+<<<<<<< HEAD
 >>>>>>> parent of 4895142 (Updated the frontend)
+=======
+import { LoadingComponent } from './component/loading/loading.component';
+>>>>>>> parent of 25d56b6 (Updates)
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
@@ -19,20 +23,29 @@ const routes: Routes = [
 
 =======
   { path: 'not-found', component: NotFoundComponent },
+<<<<<<< HEAD
 >>>>>>> parent of 4895142 (Updated the frontend)
+=======
+  { path: 'loading', component: LoadingComponent },
+>>>>>>> parent of 25d56b6 (Updates)
   {
     path: '',
     component: DashboardComponent,canActivate:[AuthGuard],
     loadChildren: () =>
-    import('./pages/dashboard/dashboard.module').then(
-      (m) => m.DashboardModule
+      import('./pages/dashboard/dashboard.module').then(
+        (m) => m.DashboardModule
       ),
+<<<<<<< HEAD
 <<<<<<< HEAD
   },
 =======
     },
     { path: '**', component: RedirectComponent },
 >>>>>>> parent of 4895142 (Updated the frontend)
+=======
+  },
+  { path: '**', component: RedirectComponent },
+>>>>>>> parent of 25d56b6 (Updates)
 ];
 
 @NgModule({

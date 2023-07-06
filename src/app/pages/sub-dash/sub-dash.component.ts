@@ -23,11 +23,7 @@ export class SubDashComponent {
   clipboardIcon: string = 'bi-clipboard2';
   showResponse: boolean = false;
   generateQRCode: boolean = false;
-  error: object | any = {
-    message: '',
-    icon: '',
-    type: '',
-  };
+  error: object | any = {};
   currentUrl = window.location.origin.replace(/^https?:\/\//, '');
   response: any;
   constructor(private http: UrlServiceService, private route: Router) {}
@@ -99,6 +95,7 @@ export class SubDashComponent {
       this.http.getUserQrCode(userID).subscribe(
         (response) => {
           this.qrCode = response.data.reverse()[0];
+          console.log(this.qrCode);
           this.qrCodeDetails = response.data;
         },
         (error) => {

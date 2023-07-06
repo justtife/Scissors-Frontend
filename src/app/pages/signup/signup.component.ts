@@ -1,7 +1,6 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user-service.service';
-import { AlertComponent } from 'src/app/component/alert/alert.component';
 import { switchMap } from 'rxjs';
 @Component({
   selector: 'app-signup',
@@ -13,15 +12,10 @@ export class SignupComponent implements OnInit {
   user: any = {
     profilePic: '',
   };
-  response: object | any = {
-    message: '',
-    icon: '',
-    type: '',
-  };
+  response: object | any = {};
   selectedFile: any;
   countries: any;
   formData: FormData = new FormData();
-  @ViewChild(AlertComponent) alertComponent!: AlertComponent;
   constructor(private http: UserService, private route: Router) {}
   ngOnInit() {
     this.http.getAllCountries().subscribe((response) => {
@@ -42,11 +36,6 @@ export class SignupComponent implements OnInit {
   login() {
     this.route.navigate(['login']);
   }
-  resetAlert(): void {
-    if (this.alertComponent) {
-      this.alertComponent.resetAlert();
-    }
-  }
 
   imageUpload(e: any) {
     let file = e.target.files[0];
@@ -56,10 +45,14 @@ export class SignupComponent implements OnInit {
   async onSubmit() {
     this.isSubmitting = true;
 <<<<<<< HEAD
+<<<<<<< HEAD
     this.http
       .imageUpload(this.formData)
       .pipe(
 =======
+=======
+    this.response = {};
+>>>>>>> parent of 25d56b6 (Updates)
     let requestObservable;
     if (this.file) {
       requestObservable = this.http.imageUpload(this.formData).pipe(
@@ -97,7 +90,7 @@ export class SignupComponent implements OnInit {
 <<<<<<< HEAD
 =======
     } else {
-      // this.user.profilePic = '';
+      this.user.profilePic = '';
       requestObservable = this.http.signUser(this.user);
     }
     requestObservable.subscribe(
@@ -107,15 +100,6 @@ export class SignupComponent implements OnInit {
         this.response.icon = 'bi-hand-thumbs-up';
         localStorage.setItem('srstoken', response.token);
         localStorage.setItem('userID', response.data.userID);
-        const currentDate = new Date();
-        const sixHoursFromNow = new Date(
-          currentDate.getTime() + 3 * 60 * 60 * 1000
-        );
-        const dateString = sixHoursFromNow.toISOString();
-        localStorage.setItem(
-          'tokenExp',
-          dateString + ' ' + response.data.userID
-        );
         // Navigate and reset isSubmitting after 3 seconds
         setTimeout(() => {
           this.route.navigate(['/dashboard']);

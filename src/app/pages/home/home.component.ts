@@ -23,7 +23,11 @@ export class HomeComponent implements OnInit {
       console.log(err)
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+    this.error = {};
+>>>>>>> parent of 25d56b6 (Updates)
     this.http.shortenURL(this.urlData).subscribe(
       (response) => {
         this.newLink = `scissors-six.vercel.app/${response.data.short_url}`;
@@ -31,7 +35,7 @@ export class HomeComponent implements OnInit {
         this.isSubmitting = false;
       },
       (error) => {
-        this.error.message = error.error.message;
+        this.error.message = error.error.data;
         this.error.icon = 'bi-exclamation-circle';
         this.error.type = 'alert-warning';
         this.isSubmitting = false;

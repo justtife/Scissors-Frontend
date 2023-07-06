@@ -1,0 +1,33 @@
+<form #signupForm="ngForm"  id="signupForm">
+  <div class="row">
+    <!-- First Name -->
+    <div class="form-floating col-lg-9 mb-3">
+      <input
+        type="text"
+        class="form-control"
+        placeholder=" "
+        name="firstname"
+        required
+      />
+      <label for="fieldName">Enter the scissors url</label>
+    </div>
+    <!-- Last Name -->
+
+    <!-- Submit Button -->
+    <div class="col-lg-3 mb-3">
+      <button
+        type="submit"
+        class="btn btn-block btn-outline-primary py-1 w-100"
+      >
+        <span *ngIf="true">Generate QR</span>
+        <span *ngIf="false">
+          <span
+            class="spinner-border spinner-border-sm me-2"
+            role="status"
+          ></span>
+          Processing...
+        </span>
+      </button>
+    </div>
+  </div>
+</form>

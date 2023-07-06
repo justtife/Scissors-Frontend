@@ -1,8 +1,11 @@
 <<<<<<< HEAD
 =======
 <app-alert *ngIf="error.message" [response]="error"></app-alert>
+<<<<<<< HEAD
 
 >>>>>>> parent of 4895142 (Updated the frontend)
+=======
+>>>>>>> parent of 25d56b6 (Updates)
 <section class="section dashboard">
   <div class="row">
     <!-- Left side columns -->
@@ -233,10 +236,12 @@
                 <p class="card-text" *ngIf="qrCode?.description">
                   {{ qrCode?.description }}
                 </p>
-                <p class="card-text" *ngIf="qrCode?.tag">
+                <p class="card-text" *ngIf="qrCode?.tag != 0">
                   <strong>Tags:</strong>
                 </p>
-                <p class="card-text" *ngIf="qrCode?.tag">{{ qrCode?.tag }}</p>
+                <p class="card-text" *ngIf="qrCode?.tag != 0">
+                  {{ qrCode?.tag }}
+                </p>
               </div>
 >>>>>>> parent of 4895142 (Updated the frontend)
             </div>
