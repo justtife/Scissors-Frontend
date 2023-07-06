@@ -1,7 +1,6 @@
 <!-- ======= Header ======= -->
 <app-header></app-header>
 <!-- End Header -->
-<app-alert *ngIf="error.message" [response]="error"></app-alert>
 
 <!-- ======= Hero Section ======= -->
 <section class="hero-section" id="hero">
@@ -56,7 +55,7 @@
               data-aos-delay="200"
               data-aos-offset="-500"
             >
-              <a routerLink="/signup" class="btn btn-outline-warning"
+              <a routerLink="/signup" class="btn btn-outline-primary"
                 >Get started</a
               >
             </p>
@@ -198,12 +197,7 @@
           </p>
         </div>
         <div class="col-md-10 mx-auto col-lg-7">
-          <form
-            #createUrl="ngForm"
-            (ngSubmit)="shortenURL()"
-            id="createUrl"
-            class="p-4 p-md-5 border rounded-3 bg-light shadow"
-          >
+          <form class="p-4 p-md-5 border rounded-3 bg-light shadow">
             <div class="form-floating mb-3">
               <div class="input-group">
                 <span class="input-group-text">
@@ -213,9 +207,6 @@
                   type="text"
                   class="form-control"
                   placeholder="Enter long url"
-                  name="original_url"
-                  required
-                  [(ngModel)]="urlData.original_url"
                 />
               </div>
             </div>
@@ -225,29 +216,26 @@
                   <i class="bi bi-pen"></i>
                 </span>
                 <input
-                  type="text"
+                  type="password"
                   class="form-control"
                   placeholder="Enter a title"
-                  name="name"
-                  required
-                  [(ngModel)]="urlData.name"
                 />
               </div>
             </div>
             <div
               class="form-floating mb-3"
               [style.display]="showCustomUrl ? 'block' : 'none'"
+              [(ngModel)]="customUrl"
             >
               <div class="input-group">
                 <span class="input-group-text">
                   <i class="bi bi-pencil-fill"></i>
                 </span>
                 <input
-                  type="text"
+                  type="password"
                   class="form-control"
                   placeholder="Enter a custom URL"
-                  name="short_url"
-                  [(ngModel)]="urlData.short_url"
+                  name="customUrl"
                 />
               </div>
             </div>
@@ -256,47 +244,17 @@
               <input
                 class="form-check-input"
                 type="checkbox"
+                [(ngModel)]="showCustomUrl"
                 id="toggleCustomUrl"
                 (change)="toggleCustomUrl()"
               />
               <label class="form-check-label" for="toggleCustomUrl"
                 >Add Custom URL</label
               >
-              <div class="container my-3" *ngIf="newLink">
-                <div class="d-flex justify-content-center">
-                  <div class="input-group w-50">
-                    <input
-                      type="text"
-                      class="form-control"
-                      [value]="newLink"
-                      readonly
-                    />
-                    <span
-                      class="input-group-text"
-                      (click)="copyLink()"
-                      [ngClass]="{
-                        ticked: clipboardIcon === 'bi-clipboard2-check'
-                      }"
-                    >
-                      <i class="bi" [ngClass]="clipboardIcon"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
             </div>
-            <button
-              type="submit"
-              class="w-100 btn btn-lg btn-outline-info"
-              [disabled]="createUrl.invalid || isSubmitting"
-            >
-              <span *ngIf="!isSubmitting">Shorten</span>
-              <span *ngIf="isSubmitting">
-                <span
-                  class="spinner-border spinner-border-sm me-2"
-                  role="status"
-                ></span>
-                Processing...
-              </span>
+
+            <button class="w-100 btn btn-lg btn-outline-info" type="submit">
+              Shorten
             </button>
             <hr class="my-4" />
             <small class="text-muted"

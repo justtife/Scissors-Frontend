@@ -1,9 +1,6 @@
 /*--------------------------------------------------------------
   # Override some default Bootstrap stylings
   --------------------------------------------------------------*/
-.ticked {
-  background-color: green;
-}
 // Dropdown menus
 .dropdown-menu {
   border-radius: 4px;
@@ -112,6 +109,43 @@
   --------------------------------------------------------------*/
 // Filter dropdown
 .dashboard {
+  &-filter {
+    position: absolute;
+    right: 0px;
+    top: 15px;
+
+    .icon {
+      color: #aab7cf;
+      padding-right: 20px;
+      padding-bottom: 5px;
+      transition: 0.3s;
+      font-size: 16px;
+
+      &:hover,
+      &:focus {
+        color: #4154f1;
+      }
+    }
+
+    .dropdown-header {
+      padding: 8px 15px;
+
+      h6 {
+        text-transform: uppercase;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        color: #aab7cf;
+        margin-bottom: 0;
+        padding: 0;
+      }
+    }
+
+    .dropdown-item {
+      padding: 8px 15px;
+    }
+  }
+
   &-info-card {
     padding-bottom: 10px;
 
@@ -187,13 +221,5 @@
     line-height: auto;
     margin-left: 10px;
     font-size: 15px;
-  }
-}
-.modal-body {
-  .card {
-    width: 150px;
-    .card-body img {
-      width: 150px;
-    }
   }
 }

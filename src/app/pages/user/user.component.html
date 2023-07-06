@@ -225,7 +225,9 @@
                       name="nationality"
                       [(ngModel)]="user.nationality"
                     >
-                      <option *ngFor="let country of countries">
+                      <option
+                        *ngFor="let country of countries"
+                      >
                         {{ country.name.common }}
                       </option>
                     </select>
@@ -252,7 +254,7 @@
                   <button
                     type="submit"
                     class="btn btn-block btn-outline-primary py-1 w-100"
-                    [disabled]="isSubmitting"
+                    [disabled]=" isSubmitting"
                   >
                     <span *ngIf="!isSubmitting">Save Changes</span>
                     <span *ngIf="isSubmitting">
@@ -269,13 +271,11 @@
             </div>
             <div class="tab-pane fade pt-3" id="change-email">
               <!-- Change Password Form -->
-              <form
-                #changeEmail="ngForm"
-                (ngSubmit)="onChangeEmail()"
-                id="changeEmail"
-              >
+              <form>
                 <div class="row mb-3">
-                  <label for="oldEmail" class="col-md-4 col-lg-3 col-form-label"
+                  <label
+                    for="newPassword"
+                    class="col-md-4 col-lg-3 col-form-label"
                     >Old Email</label
                   >
                   <div class="col-md-8 col-lg-9">
@@ -284,15 +284,14 @@
                       type="email"
                       class="form-control"
                       id="oldEmail"
-                      name="oldEmail"
-                      required
-                      [(ngModel)]="user.oldEmail"
                     />
                   </div>
                 </div>
 
                 <div class="row mb-3">
-                  <label for="newEmail" class="col-md-4 col-lg-3 col-form-label"
+                  <label
+                    for="renewPassword"
+                    class="col-md-4 col-lg-3 col-form-label"
                     >New Email</label
                   >
                   <div class="col-md-8 col-lg-9">
@@ -301,9 +300,6 @@
                       type="email"
                       class="form-control"
                       id="newEmail"
-                      name="newEmail"
-                      required
-                      [(ngModel)]="user.newEmail"
                     />
                   </div>
                 </div>

@@ -12,36 +12,22 @@ export class LoginComponent {
     user: '',
     password: '',
   };
-  response: object | any = {
-    message: '',
-    icon: '',
-    type: '',
-  };
+  apiResponse: any;
   constructor(private http: UserService, private route: Router) {}
   async onSubmit() {
     this.isSubmitting = true;
     try {
-      this.response = {};
       this.http.loginUser(this.user).subscribe(
         (response) => {
-          localStorage.setItem('srstoken', response.token);
+          this.apiResponse = response;
+          localStorage.setItem('token', response.token);
           localStorage.setItem('userID', response.data.userID);
-          const currentDate = new Date();
-          const sixHoursFromNow = new Date(
-            currentDate.getTime() + 3 * 60 * 60 * 1000
-          );
-          const dateString = sixHoursFromNow.toISOString();
-          localStorage.setItem(
-            'tokenExp',
-            dateString + ' ' + response.data.userID
-          );
-          this.route.navigate(['/dashboard']);
-          this.isSubmitting = false;
+          setTimeout(() => {
+            this.route.navigate(['/dashboard']); // Replace '/dashboard' with your desired route
+            this.isSubmitting = false;
+          }, 3000);
         },
         (error) => {
-          this.response.message = error.error.message;
-          this.response.icon = 'bi-exclamation-circle';
-          this.response.type = 'alert-warning';
           this.isSubmitting = false;
         }
       );

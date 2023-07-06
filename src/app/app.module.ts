@@ -12,8 +12,6 @@ import { DashboardModule } from './pages/dashboard/dashboard.module';
 import { HeaderModule } from './component/header/header.module';
 import { UserComponent } from './pages/user/user.component';
 import { HttpClientModule } from '@angular/common/http';
-import { NotFoundComponent } from './pages/not-found/not-found.component';
-import { RedirectComponent } from './component/redirect/redirect.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,8 +21,6 @@ import { RedirectComponent } from './component/redirect/redirect.component';
     AlertComponent,
     SubDashComponent,
     UserComponent,
-    NotFoundComponent,
-    RedirectComponent,
   ],
   imports: [
     BrowserModule,

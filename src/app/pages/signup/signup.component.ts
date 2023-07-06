@@ -19,7 +19,6 @@ export class SignupComponent implements OnInit {
     type: '',
   };
   selectedFile: any;
-  file: any;
   countries: any;
   formData: FormData = new FormData();
   @ViewChild(AlertComponent) alertComponent!: AlertComponent;
@@ -50,51 +49,44 @@ export class SignupComponent implements OnInit {
   }
 
   imageUpload(e: any) {
-    this.file = e.target.files[0];
-    this.formData.append('profilePic', this.file, this.file.name);
+    let file = e.target.files[0];
+    console.log(file);
+    this.formData.append('profilePic', file, file.name);
   }
   async onSubmit() {
     this.isSubmitting = true;
-    let requestObservable;
-    if (this.file) {
-      requestObservable = this.http.imageUpload(this.formData).pipe(
+    this.http
+      .imageUpload(this.formData)
+      .pipe(
         switchMap((response) => {
           this.user.profilePic = response.data;
           return this.http.signUser(this.user);
         })
+      )
+      .subscribe(
+        (response: any) => {
+          this.response.message = response.message;
+          this.response.type = 'alert-success';
+          this.response.icon = 'bi-hand-thumbs-up';
+          localStorage.setItem('srstoken', response.token);
+          localStorage.setItem('userID', response.data.userID);
+          const currentDate = new Date();
+          const sixHoursFromNow = new Date(
+            currentDate.getTime() + 6 * 60 * 60 * 1000
+          );
+          const dateString = sixHoursFromNow.toISOString();
+          localStorage.setItem('tokenExp', dateString);
+          // Navigate and reset isSubmitting after 3 seconds
+          setTimeout(() => {
+            this.route.navigate(['/dashboard']);
+            this.isSubmitting = false;
+          }, 3000);
+        },
+        (error: any) => {
+          // Handle signUser error
+          console.log(error.error.message);
+          // Rest of the code...
+        }
       );
-    } else {
-      // this.user.profilePic = '';
-      requestObservable = this.http.signUser(this.user);
-    }
-    requestObservable.subscribe(
-      (response: any) => {
-        this.response.message = response.message;
-        this.response.type = 'alert-success';
-        this.response.icon = 'bi-hand-thumbs-up';
-        localStorage.setItem('srstoken', response.token);
-        localStorage.setItem('userID', response.data.userID);
-        const currentDate = new Date();
-        const sixHoursFromNow = new Date(
-          currentDate.getTime() + 3 * 60 * 60 * 1000
-        );
-        const dateString = sixHoursFromNow.toISOString();
-        localStorage.setItem(
-          'tokenExp',
-          dateString + ' ' + response.data.userID
-        );
-        // Navigate and reset isSubmitting after 3 seconds
-        setTimeout(() => {
-          this.route.navigate(['/dashboard']);
-          this.isSubmitting = false;
-        }, 3000);
-      },
-      (error: any) => {
-        this.response.message = error.error.message;
-        this.response.icon = 'bi-exclamation-circle';
-        this.response.type = 'alert-warning';
-        this.isSubmitting = false;
-      }
-    );
   }
 }

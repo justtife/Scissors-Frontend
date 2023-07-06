@@ -9,7 +9,8 @@ import { switchMap } from 'rxjs';
 export class UserComponent implements OnInit {
   // @ViewChild('fileInput') fileInput!: ElementRef;
   userData: any;
-  user: any = {};
+  user: any = {
+  };
   countries: any;
   selectedImageFile: File | any;
   selectedImageSource: string | any;
@@ -93,10 +94,6 @@ export class UserComponent implements OnInit {
       )
       .subscribe((response: any) => {
         console.log(response);
-        this.user = {};
       });
-  }
-  onChangeEmail() {
-    
   }
 }
