@@ -55,9 +55,15 @@ export class SignupComponent implements OnInit {
   }
   async onSubmit() {
     this.isSubmitting = true;
+<<<<<<< HEAD
     this.http
       .imageUpload(this.formData)
       .pipe(
+=======
+    let requestObservable;
+    if (this.file) {
+      requestObservable = this.http.imageUpload(this.formData).pipe(
+>>>>>>> parent of 4895142 (Updated the frontend)
         switchMap((response) => {
           this.user.profilePic = response.data;
           return this.http.signUser(this.user);
@@ -88,5 +94,41 @@ export class SignupComponent implements OnInit {
           // Rest of the code...
         }
       );
+<<<<<<< HEAD
+=======
+    } else {
+      // this.user.profilePic = '';
+      requestObservable = this.http.signUser(this.user);
+    }
+    requestObservable.subscribe(
+      (response: any) => {
+        this.response.message = response.message;
+        this.response.type = 'alert-success';
+        this.response.icon = 'bi-hand-thumbs-up';
+        localStorage.setItem('srstoken', response.token);
+        localStorage.setItem('userID', response.data.userID);
+        const currentDate = new Date();
+        const sixHoursFromNow = new Date(
+          currentDate.getTime() + 3 * 60 * 60 * 1000
+        );
+        const dateString = sixHoursFromNow.toISOString();
+        localStorage.setItem(
+          'tokenExp',
+          dateString + ' ' + response.data.userID
+        );
+        // Navigate and reset isSubmitting after 3 seconds
+        setTimeout(() => {
+          this.route.navigate(['/dashboard']);
+          this.isSubmitting = false;
+        }, 3000);
+      },
+      (error: any) => {
+        this.response.message = error.error.message;
+        this.response.icon = 'bi-exclamation-circle';
+        this.response.type = 'alert-warning';
+        this.isSubmitting = false;
+      }
+    );
+>>>>>>> parent of 4895142 (Updated the frontend)
   }
 }

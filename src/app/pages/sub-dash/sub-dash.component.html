@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+<app-alert *ngIf="error.message" [response]="error"></app-alert>
+
+>>>>>>> parent of 4895142 (Updated the frontend)
 <section class="section dashboard">
   <div class="row">
     <!-- Left side columns -->
@@ -171,6 +176,7 @@
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Latest QrCode</h5>
+<<<<<<< HEAD
 
           <div class="card bg-transparent">
             <img
@@ -196,6 +202,43 @@
                 <strong>Tags:</strong>
               </p>
               <p class="card-text">URL,Shortner,Scissors</p>
+=======
+          <h2 class="text-center" *ngIf="!qrCode; else NoQrCode">
+            No Qr Code has been generated yet
+          </h2>
+          <ng-template #NoQrCode>
+            <div class="card bg-transparent">
+              <img
+                [src]="qrCode?.qrcode"
+                class="card-img-top"
+                alt="Qr code of short link"
+              />
+              <div class="card-body bg-transparent">
+                <h5 class="card-title">Details</h5>
+                <p class="card-text">
+                  <strong>Short URL:</strong>
+                </p>
+                <p class="card-text">
+                  <a [routerLink]="'/' + qrCode?.short_url"
+                    >{{ currentUrl }}/{{ qrCode?.short_url }}</a
+                  >
+                </p>
+                <p class="card-text">
+                  <strong>Title:</strong>
+                </p>
+                <p class="card-text">{{ qrCode?.name }}</p>
+                <p *ngIf="qrCode?.description" class="card-text">
+                  <strong>Description:</strong>
+                </p>
+                <p class="card-text" *ngIf="qrCode?.description">
+                  {{ qrCode?.description }}
+                </p>
+                <p class="card-text" *ngIf="qrCode?.tag">
+                  <strong>Tags:</strong>
+                </p>
+                <p class="card-text" *ngIf="qrCode?.tag">{{ qrCode?.tag }}</p>
+              </div>
+>>>>>>> parent of 4895142 (Updated the frontend)
             </div>
           </div>
         </div>

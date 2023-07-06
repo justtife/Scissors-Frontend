@@ -12,6 +12,11 @@ import { DashboardModule } from './pages/dashboard/dashboard.module';
 import { HeaderModule } from './component/header/header.module';
 import { UserComponent } from './pages/user/user.component';
 import { HttpClientModule } from '@angular/common/http';
+<<<<<<< HEAD
+=======
+import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { RedirectComponent } from './component/redirect/redirect.component';
+>>>>>>> parent of 4895142 (Updated the frontend)
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,6 +26,11 @@ import { HttpClientModule } from '@angular/common/http';
     AlertComponent,
     SubDashComponent,
     UserComponent,
+<<<<<<< HEAD
+=======
+    NotFoundComponent,
+    RedirectComponent,
+>>>>>>> parent of 4895142 (Updated the frontend)
   ],
   imports: [
     BrowserModule,
