@@ -1,10 +1,7 @@
-<!-- ======= Header ======= -->
-<app-header></app-header>
-<!-- End Header -->
 <app-alert *ngIf="error.message" [response]="error"></app-alert>
 
-<!-- ======= Hero Section ======= -->
 <section class="hero-section" id="hero">
+  <app-header></app-header>
   <div class="wave">
     <svg
       width="100%"
@@ -56,7 +53,7 @@
               data-aos-delay="200"
               data-aos-offset="-500"
             >
-              <a routerLink="/signup" class="btn btn-outline-warning"
+              <a routerLink="/signup" class="btn btn-primary"
                 >Get started</a
               >
             </p>
@@ -300,7 +297,7 @@
             </button>
             <hr class="my-4" />
             <small class="text-muted"
-              >By clicking Sign in, you can create qrcode conveniently</small
+              >By clicking <a routerLink="/login">Sign in</a> , you can create qrcode conveniently</small
             >
           </form>
         </div>
@@ -315,14 +312,14 @@
           <h2 class="mb-4">Enhanced Readability</h2>
           <p class="mb-4">
             Converting long and complex URLs into QR codes;
-            <strong>Scissors</strong>
+            <strong class="text-success">Scissors</strong>
             offers a streamlined and efficient way for users to access web
             content. The QR codes enhance readability and save valuable space,
             making it easier and more convenient for users to scan and navigate
             to the desired information or websites.
           </p>
           <p>
-            <a routerLink="/qrcode" class="btn btn-primary">Create Qr Code</a>
+            <a routerLink="/qrcode" class="btn btn-outline-primary">Create Qr Code</a>
           </p>
         </div>
         <div class="col-md-6" data-aos="fade-left" data-aos-delay="500">
@@ -348,7 +345,7 @@
             optimization. Additionally, you can track and analyze your links
             just at your confort
           </p>
-          <p><a routerLink="/login" class="btn btn-primary">Start Now</a></p>
+          <p><a routerLink="/login" class="btn btn-outline-primary">Start Now</a></p>
         </div>
         <div class="col-md-6" data-aos="fade-right" data-aos-delay="500">
           <img

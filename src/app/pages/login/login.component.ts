@@ -12,29 +12,17 @@ export class LoginComponent {
     user: '',
     password: '',
   };
-  response: object | any = {
-    message: '',
-    icon: '',
-    type: '',
-  };
+  response: object | any = {};
   constructor(private http: UserService, private route: Router) {}
   async onSubmit() {
     this.isSubmitting = true;
+    this.response = {};
     try {
       this.response = {};
       this.http.loginUser(this.user).subscribe(
         (response) => {
           localStorage.setItem('srstoken', response.token);
           localStorage.setItem('userID', response.data.userID);
-          const currentDate = new Date();
-          const sixHoursFromNow = new Date(
-            currentDate.getTime() + 3 * 60 * 60 * 1000
-          );
-          const dateString = sixHoursFromNow.toISOString();
-          localStorage.setItem(
-            'tokenExp',
-            dateString + ' ' + response.data.userID
-          );
           this.route.navigate(['/dashboard']);
           this.isSubmitting = false;
         },

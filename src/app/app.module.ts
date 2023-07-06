@@ -14,6 +14,9 @@ import { UserComponent } from './pages/user/user.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { RedirectComponent } from './component/redirect/redirect.component';
+import { QrcodeComponent } from './pages/qrcode/qrcode.component';
+import { AnalyticsComponent } from './pages/analytics/analytics.component';
+import { SupportComponent } from './pages/support/support.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,6 +28,9 @@ import { RedirectComponent } from './component/redirect/redirect.component';
     UserComponent,
     NotFoundComponent,
     RedirectComponent,
+    QrcodeComponent,
+    AnalyticsComponent,
+    SupportComponent,
   ],
   imports: [
     BrowserModule,

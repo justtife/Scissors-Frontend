@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit {
     if (!this.showCustomUrl) {
       delete this.urlData.short_url;
     }
+    this.error = {};
     this.http.shortenURL(this.urlData).subscribe(
       (response) => {
         this.newLink = `scissors-six.vercel.app/${response.data.short_url}`;
@@ -37,7 +38,7 @@ export class HomeComponent implements OnInit {
         this.isSubmitting = false;
       },
       (error) => {
-        this.error.message = error.error.message;
+        this.error.message = error.error.data;
         this.error.icon = 'bi-exclamation-circle';
         this.error.type = 'alert-warning';
         this.isSubmitting = false;

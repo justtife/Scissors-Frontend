@@ -1,3 +1,4 @@
+<app-alert *ngIf="response.message" [response]="response"></app-alert>
 <section class="section profile">
   <div class="row">
     <div class="col-xl-4">
@@ -18,8 +19,8 @@
               class="rounded-circle"
             />
           </ng-template>
-          <h2>{{ userData?.name.first }}</h2>
-          <h3>{{ userData?.name.user }}</h3>
+          <h2>{{ userData?.name?.first }}</h2>
+          <h3>{{ userData?.name?.user }}</h3>
         </div>
       </div>
     </div>
@@ -79,12 +80,12 @@
               <div class="row">
                 <div class="col-lg-3 col-md-4 label">Full Name</div>
                 <div class="col-lg-9 col-md-8">
-                  {{ userData?.name.first }} {{ userData?.name.last }}
+                  {{ userData?.name?.first }} {{ userData?.name?.last }}
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-3 col-md-4 label">User Name</div>
-                <div class="col-lg-9 col-md-8">{{ userData?.name.user }}</div>
+                <div class="col-lg-9 col-md-8">{{ userData?.name?.user }}</div>
               </div>
 
               <div class="row">
@@ -115,7 +116,7 @@
               <!-- Profile Edit Form -->
               <form
                 #updateForm="ngForm"
-                (ngSubmit)="onSubmit()"
+                (ngSubmit)="onUpdate()"
                 id="updateForm"
               >
                 <div class="row mb-3">
@@ -174,8 +175,7 @@
                       class="form-control"
                       id="firstname"
                       required
-                      [value]="userData?.name.first"
-                      [(ngModel)]="user.firstname || userData?.name.first"
+                      [(ngModel)]="userData?.name.first"
                     />
                   </div>
                 </div>
@@ -190,8 +190,7 @@
                       class="form-control"
                       id="lastname"
                       required
-                      [value]="userData?.name.last"
-                      [(ngModel)]="user.lastname || userData?.name.last"
+                      [(ngModel)]="userData?.name.last"
                     />
                   </div>
                 </div>
@@ -206,8 +205,7 @@
                       class="form-control"
                       id="username"
                       required
-                      [value]="userData?.name.user"
-                      [(ngModel)]="user.username || userData?.name.user"
+                      [(ngModel)]="userData?.name.user"
                     />
                   </div>
                 </div>
@@ -223,7 +221,7 @@
                       class="form-control"
                       id="nationality"
                       name="nationality"
-                      [(ngModel)]="user.nationality"
+                      [(ngModel)]="userData.nationality"
                     >
                       <option *ngFor="let country of countries">
                         {{ country.name.common }}
@@ -240,7 +238,7 @@
                       name="sex"
                       id="sex"
                       class="form-control"
-                      [(ngModel)]="user.sex"
+                      [(ngModel)]="userData.sex"
                     >
                       <option value="male">Male</option>
                       <option value="female">Female</option>
